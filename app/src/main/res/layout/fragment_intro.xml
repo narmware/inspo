@@ -68,6 +68,7 @@
             android:layout_height="wrap_content">
 
             <Button
+                android:foreground="?attr/selectableItemBackground"
                 android:id="@+id/btn_signup"
                 android:layout_margin="10dp"
                 android:minHeight="1dp"
@@ -79,6 +80,7 @@
                 android:layout_height="wrap_content" />
 
             <Button
+                android:foreground="?attr/selectableItemBackground"
                 android:id="@+id/btn_login"
                 android:layout_margin="10dp"
                 android:minHeight="1dp"

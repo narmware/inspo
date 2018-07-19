@@ -49,7 +49,7 @@ public class HomeActivity extends AppCompatActivity implements GalleryFragment.O
 
     Button mBtnSearch;
     CircleImageView mImgProf;
-    ImageView mImgChat;
+    ImageView mImgMeetup;
 
     @SuppressLint("NewApi")
     @Override
@@ -65,11 +65,11 @@ public class HomeActivity extends AppCompatActivity implements GalleryFragment.O
 
         mBtnSearch=findViewById(R.id.btn_search);
         mImgProf=findViewById(R.id.prof_img);
-        mImgChat=findViewById(R.id.img_chat);
+        mImgMeetup=findViewById(R.id.img_meetup);
 
         mBtnSearch.setOnClickListener(this);
         mImgProf.setOnClickListener(this);
-        mImgChat.setOnClickListener(this);
+        mImgMeetup.setOnClickListener(this);
     }
 
     @Override
@@ -92,16 +92,15 @@ public class HomeActivity extends AppCompatActivity implements GalleryFragment.O
             case R.id.btn_search:
                 Intent intent=new Intent(HomeActivity.this,SearchActivity.class);
                 startActivity(intent);
-
-               // Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.prof_img:
                 Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
                 break;
 
-            case R.id.img_chat:
-                Toast.makeText(this, "Meetups", Toast.LENGTH_SHORT).show();
+            case R.id.img_meetup:
+                Intent intentMeet=new Intent(HomeActivity.this,MeetupActivity.class);
+                startActivity(intentMeet);
                 break;
         }
     }

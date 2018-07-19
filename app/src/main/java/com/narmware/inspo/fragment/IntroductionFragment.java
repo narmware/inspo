@@ -1,6 +1,7 @@
 package com.narmware.inspo.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.narmware.inspo.R;
+import com.narmware.inspo.activity.HomeActivity;
 
 
 /**
@@ -23,7 +25,8 @@ import com.narmware.inspo.R;
  * Use the {@link IntroductionFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class IntroductionFragment extends Fragment {
+public class IntroductionFragment extends Fragment implements View.OnClickListener
+{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_TITLE = "title";
@@ -86,11 +89,29 @@ public class IntroductionFragment extends Fragment {
         mBtnLogIn=view.findViewById(R.id.btn_login);
         mBtnSignIn=view.findViewById(R.id.btn_signup);
 
+        mBtnSignIn.setOnClickListener(this);
+        mBtnLogIn.setOnClickListener(this);
+
         mTxtTitle.setText(title);
         mTxtDesc.setText(desc);
         mImg.setImageResource(image);
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId())
+        {
+            case R.id.btn_signup:
+                break;
+
+            case R.id.btn_login:
+                Intent intent=new Intent(getContext(), HomeActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+                break;
+        }
+
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -114,6 +135,8 @@ public class IntroductionFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+
 
     /**
      * This interface must be implemented by activities that contain this

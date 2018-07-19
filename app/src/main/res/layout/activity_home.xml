@@ -48,7 +48,7 @@
             android:layout_height="wrap_content" />
 
         <ImageView
-            android:id="@+id/img_chat"
+            android:id="@+id/img_meetup"
             android:foreground="?attr/selectableItemBackground"
             android:src="@drawable/chat_icon"
             android:layout_alignParentRight="true"

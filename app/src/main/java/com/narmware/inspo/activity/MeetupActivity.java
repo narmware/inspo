@@ -7,6 +7,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.narmware.inspo.R;
 import com.narmware.inspo.adapter.CategoryAdapter;
@@ -14,21 +17,29 @@ import com.narmware.inspo.pojo.Category;
 
 import java.util.ArrayList;
 
-public class DemoActivity extends AppCompatActivity {
+public class MeetupActivity extends AppCompatActivity implements View.OnClickListener {
 
     RecyclerView recyclerView;
     ArrayList<Category> categories;
     CategoryAdapter categoryAdapter;
+    ImageButton mBtnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_demo);
+        setContentView(R.layout.activity_meetup);
         getSupportActionBar().hide();
 
+        init();
+
+        setCatAdapter(new LinearLayoutManager(MeetupActivity.this));
+    }
+
+    private void init() {
+        mBtnBack=findViewById(R.id.btn_back);
         recyclerView=findViewById(R.id.recyclerView);
 
-            setCatAdapter(new LinearLayoutManager(DemoActivity.this));
+        mBtnBack.setOnClickListener(this);
     }
 
     public void setCatAdapter(RecyclerView.LayoutManager mLayoutManager){
@@ -39,7 +50,7 @@ public class DemoActivity extends AppCompatActivity {
         categories.add(new Category("Cat 2"));
         categories.add(new Category("Cat 3"));
 
-        categoryAdapter = new CategoryAdapter(categories,DemoActivity.this,getSupportFragmentManager());
+        categoryAdapter = new CategoryAdapter(categories,MeetupActivity.this,getSupportFragmentManager());
         //RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(GalleryActivity.this,2);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -50,5 +61,15 @@ public class DemoActivity extends AppCompatActivity {
 
         categoryAdapter.notifyDataSetChanged();
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId())
+        {
+            case R.id.btn_back:
+                finish();
+                break;
+        }
     }
 }
