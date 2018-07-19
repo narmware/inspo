@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.CardView
+    android:id="@+id/lin_card"
+    app:cardCornerRadius="4dp"
+    android:layout_marginTop="30dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+   >
+
+<LinearLayout
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="300dp">
+
+           <RelativeLayout
+               android:id="@+id/relative_clickable"
+               android:elevation="2dp"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"></RelativeLayout>
+           <ImageView
+               android:id="@+id/img_background"
+               android:scaleType="fitXY"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent" />
+
+           <RelativeLayout
+               android:layout_marginTop="20dp"
+               android:layout_marginBottom="20dp"
+               android:layout_centerInParent="true"
+               android:orientation="vertical"
+               android:gravity="center"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content">
+
+           <de.hdodenhof.circleimageview.CircleImageView
+               android:id="@+id/prof_img"
+               android:elevation="5dp"
+               android:src="@mipmap/ic_launcher_round"
+               app:civ_border_color="@android:color/white"
+               app:civ_border_width="1dp"
+               android:layout_centerHorizontal="true"
+               android:layout_width="110dp"
+               android:layout_height="110dp" />
+
+           <TextView
+               android:id="@+id/prof_name"
+               android:layout_centerHorizontal="true"
+               android:layout_below="@+id/prof_img"
+               android:layout_marginTop="10dp"
+               android:text="Vrushali Varne"
+               android:textColor="@android:color/white"
+               android:textStyle="bold"
+               android:textSize="16sp"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content" />
+
+               <TextView
+                   android:id="@+id/prof_occu"
+                   android:layout_centerHorizontal="true"
+                   android:layout_below="@+id/prof_name"
+                   android:layout_marginTop="5dp"
+                   android:text="Android Developer"
+                   android:textColor="@android:color/white"
+                   android:textSize="16sp"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content" />
+
+           <TextView
+               android:id="@+id/prof_loc"
+               android:layout_centerHorizontal="true"
+               android:layout_below="@+id/prof_occu"
+               android:layout_marginTop="3dp"
+               android:text="Pune , India"
+               android:textColor="@android:color/white"
+               android:textSize="16sp"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content" />
+           </RelativeLayout>
+
+       </RelativeLayout>
+
+    <me.gujun.android.taggroup.TagGroup
+        android:padding="15dp"
+        android:layout_margin="10dp"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        app:atg_textColor="@color/grey_600"
+        app:atg_borderColor="@color/grey_600"
+        android:id="@+id/intrest_group"
+        style="@style/TagGroup.Large" />
+
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/grey_200"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <TextView
+        android:text="What I can offer"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textColor="@color/grey_500"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <me.gujun.android.taggroup.TagGroup
+        android:padding="15dp"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        app:atg_textColor="#0066AB"
+        app:atg_backgroundColor="#c282b4d4"
+        app:atg_borderColor="#C282B4D4"
+        android:id="@+id/offer_group"
+        style="@style/TagGroup.Large" />
+
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/grey_200"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <TextView
+        android:text="What I am looking for"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textColor="@color/grey_500"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <me.gujun.android.taggroup.TagGroup
+        android:padding="15dp"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        app:atg_textColor="@color/grey_600"
+        app:atg_borderColor="@color/grey_600"
+        android:id="@+id/look_group"
+        style="@style/TagGroup.Large" />
+
+    <TextView
+        android:text="@string/lorem_ipsum"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textColor="@color/grey_600"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
+
+</FrameLayout>
