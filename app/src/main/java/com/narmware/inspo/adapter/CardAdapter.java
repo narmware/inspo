@@ -79,10 +79,17 @@ public class CardAdapter extends BaseAdapter {
         List<String> looks=cardItems.get(position).getLooksList();
         mLookGroup.setTags(looks);
 
-        TagGroup mIntrestGroup = (TagGroup) itemView.findViewById(R.id.intrest_group);
+        final TagGroup mIntrestGroup = (TagGroup) itemView.findViewById(R.id.intrest_group);
         List<String> intrests=cardItems.get(position).getIntrestList();
         mIntrestGroup.setTags(intrests);
 
+        mIntrestGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
+            @Override
+            public void onTagClick(String tag) {
+
+                //Toast.makeText(mContext, tag, Toast.LENGTH_SHORT).show();
+            }
+        });
         ImageView mImgProf=itemView.findViewById(R.id.prof_img);
         Picasso.with(mContext)
                 .load(cardItems.get(position).getImage())

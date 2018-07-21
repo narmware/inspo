@@ -10,6 +10,7 @@ import android.support.v7.widget.SnapHelper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.narmware.inspo.R;
 import com.narmware.inspo.adapter.CategoryAdapter;
@@ -23,6 +24,7 @@ public class MeetupActivity extends AppCompatActivity implements View.OnClickLis
     ArrayList<Category> categories;
     CategoryAdapter categoryAdapter;
     ImageButton mBtnBack;
+    TextView mTxtTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +40,9 @@ public class MeetupActivity extends AppCompatActivity implements View.OnClickLis
     private void init() {
         mBtnBack=findViewById(R.id.btn_back);
         recyclerView=findViewById(R.id.recyclerView);
+        mTxtTitle=findViewById(R.id.txt_title);
 
+        mTxtTitle.setText("Meetup");
         mBtnBack.setOnClickListener(this);
     }
 

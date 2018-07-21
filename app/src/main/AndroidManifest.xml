@@ -17,19 +17,43 @@
         <activity
             android:name=".activity.HomeActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.MeetupActivity" />
-        <activity android:name=".activity.HelpActivity">
-
-        </activity>
+        <activity android:name=".activity.HelpActivity"></activity>
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.SplashActivity">
+
+        </activity>
+        <activity android:name=".activity.ProfileActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".gallery_activities.AlbumSelectActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/MultipleImageSelectTheme"
+            android:screenOrientation="portrait"
+            tools:replace="android:theme">
+            <intent-filter>
+                <category android:name="ANDROID.INTENT.CATEGORY.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".gallery_activities.ImageSelectActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/MultipleImageSelectTheme">
+            <intent-filter>
+                <category android:name="ANDROID.INTENT.CATEGORY.DEFAULT" />
+            </intent-filter>
+        </activity>
+
     </application>
+
+
 
 </manifest>

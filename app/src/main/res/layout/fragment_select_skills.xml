@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.SelectSkillsFragment">
+
+    <TextView
+        android:text="Select your intrest"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/option_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:background="@color/grey_200"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"></LinearLayout>
+
+    <TextView
+        android:text="I can help with"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <co.lujun.androidtagview.TagContainerLayout
+        android:id="@+id/selected_opt_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        app:container_enable_drag="false"
+        app:horizontal_interval="10dp"
+        app:vertical_interval="10dp"
+        app:tag_clickable="true"
+        app:tag_theme="none"
+        app:tag_enable_cross="true"
+        app:tag_border_color="@color/grey_900"
+        app:tag_ripple_duration="400"
+        app:tag_background_color="@android:color/white"
+        app:container_background_color="@android:color/white"
+        />
+
+</LinearLayout>
