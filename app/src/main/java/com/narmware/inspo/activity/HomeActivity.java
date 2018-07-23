@@ -95,7 +95,8 @@ public class HomeActivity extends AppCompatActivity implements GalleryFragment.O
                 break;
 
             case R.id.prof_img:
-                Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
+                Intent intentProf=new Intent(HomeActivity.this,ProfileActivity.class);
+                startActivity(intentProf);
                 break;
 
             case R.id.img_meetup:

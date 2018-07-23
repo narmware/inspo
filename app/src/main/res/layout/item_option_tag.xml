@@ -8,7 +8,7 @@
         android:id="@+id/txt_option_tag"
         android:text="Helloo"
         android:background="@drawable/custom_tag"
-        android:padding="10dp"
+        android:padding="6dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </RelativeLayout>

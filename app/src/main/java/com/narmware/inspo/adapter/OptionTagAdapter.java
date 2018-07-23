@@ -12,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.narmware.inspo.R;
+import com.narmware.inspo.activity.ProfileActivity;
+import com.narmware.inspo.fragment.ProfileFragment;
 import com.narmware.inspo.fragment.SelectSkillsFragment;
 import com.narmware.inspo.pojo.CardItem;
 import com.narmware.inspo.pojo.Tags;
@@ -45,6 +47,14 @@ Context mContext;
 
     @Override
     public int getItemCount() {
+
+        if(tags.size()==0)
+        {
+            SelectSkillsFragment.mProgressView.show();
+        }
+        else {
+            SelectSkillsFragment.mProgressView.hide();
+        }
         return tags.size();
     }
 
@@ -64,6 +74,7 @@ Context mContext;
                    int position= (int) mTxtName.getTag();
 
                    SelectSkillsFragment.selectedOptionGroup.addTag(mItem.getName());
+                   ProfileFragment.helpGroup.addTag(mItem.getName());
                    tags.remove(position);
                    notifyDataSetChanged();
                }

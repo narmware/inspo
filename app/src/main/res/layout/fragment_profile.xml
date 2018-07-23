@@ -43,20 +43,40 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
+                    <android.support.design.widget.CoordinatorLayout
+                        android:id="@+id/prof_img_co"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp">
+
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/prof_img"
                         android:elevation="5dp"
                         android:src="@mipmap/ic_launcher_round"
                         app:civ_border_color="@android:color/white"
                         app:civ_border_width="1dp"
-                        android:layout_centerHorizontal="true"
                         android:layout_width="110dp"
                         android:layout_height="110dp" />
 
+                        <ImageButton
+                            android:id="@+id/img_edit_prof"
+                            android:foreground="?attr/selectableItemBackground"
+                            app:srcCompat="@drawable/ic_edit"
+                            android:elevation="5dp"
+                            android:background="@drawable/edit_btn_back"
+                            android:padding="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginRight="20dp"
+                            app:layout_anchor="@+id/prof_img"
+                            app:layout_anchorGravity="bottom|right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </android.support.design.widget.CoordinatorLayout>
                     <TextView
                         android:id="@+id/prof_name"
                         android:layout_centerHorizontal="true"
-                        android:layout_below="@+id/prof_img"
+                        android:layout_below="@+id/prof_img_co"
                         android:layout_marginTop="10dp"
                         android:text="Vrushali Varne"
                         android:textColor="@android:color/white"
@@ -148,6 +168,24 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
+                    <co.lujun.androidtagview.TagContainerLayout
+                        android:id="@+id/help_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        app:container_enable_drag="false"
+                        app:horizontal_interval="10dp"
+                        app:vertical_interval="10dp"
+                        app:tag_clickable="true"
+                        app:tag_theme="none"
+                        app:tag_enable_cross="false"
+                        app:container_border_color="@android:color/white"
+                        app:tag_border_color="@color/grey_900"
+                        app:tag_ripple_duration="400"
+                        app:tag_background_color="@android:color/white"
+                        app:container_background_color="@android:color/white"
+                        />
+
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -169,6 +207,23 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
+                    <co.lujun.androidtagview.TagContainerLayout
+                        android:id="@+id/looking_for_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        app:container_enable_drag="false"
+                        app:horizontal_interval="10dp"
+                        app:vertical_interval="10dp"
+                        app:tag_clickable="true"
+                        app:tag_theme="none"
+                        app:container_border_color="@android:color/white"
+                        app:tag_enable_cross="false"
+                        app:tag_border_color="@color/grey_900"
+                        app:tag_ripple_duration="400"
+                        app:tag_background_color="@android:color/white"
+                        app:container_background_color="@android:color/white"
+                        />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -190,6 +245,23 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
+                    <co.lujun.androidtagview.TagContainerLayout
+                        android:id="@+id/skills_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        app:container_enable_drag="false"
+                        app:horizontal_interval="10dp"
+                        app:vertical_interval="10dp"
+                        app:tag_clickable="true"
+                        app:tag_theme="none"
+                        app:container_border_color="@android:color/white"
+                        app:tag_enable_cross="false"
+                        app:tag_border_color="@color/grey_900"
+                        app:tag_ripple_duration="400"
+                        app:tag_background_color="@android:color/white"
+                        app:container_background_color="@android:color/white"
+                        />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -197,21 +269,5 @@
         </LinearLayout>
 
     </ScrollView>
-
-    <Button
-        android:id="@+id/btn_next"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/signin_button"
-        android:text="Next"
-        android:textStyle="bold"
-        android:minHeight="1dp"
-        android:textColor="@android:color/white"
-        android:padding="8dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
 </RelativeLayout>

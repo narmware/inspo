@@ -1,25 +1,37 @@
 package com.narmware.inspo.fragment;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.narmware.inspo.R;
 import com.narmware.inspo.activity.ProfileActivity;
 import com.narmware.inspo.adapter.galleryAdapter.ProfileGalleryAdapter;
 import com.narmware.inspo.pojo.Image;
+import com.narmware.inspo.support.Constants;
 import com.narmware.inspo.support.DatabaseAccess;
+import com.narmware.inspo.support.SharedPreferencesHelper;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import co.lujun.androidtagview.TagContainerLayout;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,14 +47,14 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    DatabaseAccess databaseAccess;
-    int numOfImgToSelect=8;
-    public static int countSelected;
     public static ArrayList<Image> images;
     public static List<Image> temp;
     GridView profileRecycler;
     ProfileGalleryAdapter galleryAdapter;
     TextView mTxtICanHelp,mTxtLookingFor,mTxtSkills;
+    public static CircleImageView mImgProf;
+    ImageButton mImgBtnEditProf;
+    String userImage;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -51,19 +63,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     private OnFragmentInteractionListener mListener;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    public static TagContainerLayout helpGroup,lookingforGroup,skillsGroup;
 
     public ProfileFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ProfileFragment.
-     */
+
     // TODO: Rename and change types and number of parameters
     public static ProfileFragment newInstance(String param1, String param2) {
         ProfileFragment fragment = new ProfileFragment();
@@ -91,6 +97,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         init(view);
 
         return view;
+
     }
 
     private void init(View view) {
@@ -98,10 +105,20 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         mTxtICanHelp=view.findViewById(R.id.txt_iCanHelp);
         mTxtLookingFor=view.findViewById(R.id.txt_lookingFor);
         mTxtSkills=view.findViewById(R.id.txt_skills);
+        mImgBtnEditProf=view.findViewById(R.id.img_edit_prof);
+        helpGroup=view.findViewById(R.id.help_group);
+        lookingforGroup=view.findViewById(R.id.looking_for_group);
+        skillsGroup=view.findViewById(R.id.skills_group);
+        mImgProf=view.findViewById(R.id.prof_img);
+
+        helpGroup.addTag("Sample tag");
+        lookingforGroup.addTag("Sample tag");
+        skillsGroup.addTag("Sample tag");
 
         mTxtICanHelp.setOnClickListener(this);
         mTxtLookingFor.setOnClickListener(this);
         mTxtSkills.setOnClickListener(this);
+        mImgBtnEditProf.setOnClickListener(this);
     }
 
     public void setFragment(Fragment fragment)
@@ -142,15 +159,21 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         switch (view.getId())
         {
             case R.id.txt_iCanHelp:
-                setFragment(new SelectSkillsFragment());
+                setFragment(SelectSkillsFragment.newInstance(Constants.HELP_WITH));
                 break;
 
             case R.id.txt_lookingFor:
-                setFragment(new SelectSkillsFragment());
+                setFragment(SelectSkillsFragment.newInstance(Constants.LOOKING_FOR));
                 break;
 
             case R.id.txt_skills:
-                setFragment(new SelectSkillsFragment());
+                setFragment(SelectSkillsFragment.newInstance(Constants.SKILLS));
+                break;
+
+            case R.id.img_edit_prof:
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, Constants.REQUEST_CODE);
                 break;
         }
     }

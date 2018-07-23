@@ -20,6 +20,8 @@ import com.narmware.inspo.adapter.OptionTagAdapter;
 import com.narmware.inspo.adapter.SearchAdapter;
 import com.narmware.inspo.pojo.CardItem;
 import com.narmware.inspo.pojo.Tags;
+import com.narmware.inspo.support.Constants;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,37 +41,28 @@ import me.gujun.android.taggroup.TagGroup;
 public class SelectSkillsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String DATA_FLAG = "flag";
     public static TagContainerLayout selectedOptionGroup;
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String mDataFlag;
 
     private OnFragmentInteractionListener mListener;
     ArrayList<Tags> tags;
     OptionTagAdapter optionTagAdapter;
     RecyclerView mRecyclerOption;
+   public static AVLoadingIndicatorView mProgressView;
 
     public SelectSkillsFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SelectSkillsFragment.
-     */
+
     // TODO: Rename and change types and number of parameters
-    public static SelectSkillsFragment newInstance(String param1, String param2) {
+    public static SelectSkillsFragment newInstance(String mDataFlag) {
         SelectSkillsFragment fragment = new SelectSkillsFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(DATA_FLAG, mDataFlag);
         fragment.setArguments(args);
         return fragment;
     }
@@ -78,8 +71,7 @@ public class SelectSkillsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mDataFlag = getArguments().getString(DATA_FLAG);
         }
     }
 
@@ -98,6 +90,7 @@ public class SelectSkillsFragment extends Fragment {
     private void init(View view) {
         selectedOptionGroup=view.findViewById(R.id.selected_opt_group);
         mRecyclerOption=view.findViewById(R.id.option_recycler);
+        mProgressView=view.findViewById(R.id.progressview);
 
         setTagAdapter(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
 
@@ -106,6 +99,7 @@ public class SelectSkillsFragment extends Fragment {
             public void onTagClick(int position, String text) {
 
                 tags.add(new Tags(text,""));
+                optionTagAdapter.notifyDataSetChanged();
                 selectedOptionGroup.removeTag(position);
             }
 
@@ -119,20 +113,34 @@ public class SelectSkillsFragment extends Fragment {
 
                 String text=selectedOptionGroup.getTagText(position);
                 tags.add(new Tags(text,""));
+                optionTagAdapter.notifyDataSetChanged();
                 selectedOptionGroup.removeTag(position);
-
             }
         });
     }
 
-    public void setTagAdapter(RecyclerView.LayoutManager mLayoutManager){
+    public void setTagAdapter(RecyclerView.LayoutManager mLayoutManager) {
         SnapHelper snapHelper = new LinearSnapHelper();
-        tags.add(new Tags("Leadership","1"));
-        tags.add(new Tags("Management","1"));
-        tags.add(new Tags("Collaboration","1"));
-        tags.add(new Tags("Finance","1"));
-        tags.add(new Tags("Blogging","1"));
 
+        if (mDataFlag.equals(Constants.HELP_WITH)) {
+            tags.add(new Tags("Leadership", "1"));
+            tags.add(new Tags("Management", "1"));
+            tags.add(new Tags("Collaboration", "1"));
+            tags.add(new Tags("Finance", "1"));
+        }
+        if (mDataFlag.equals(Constants.LOOKING_FOR)) {
+            tags.add(new Tags("Management", "1"));
+            tags.add(new Tags("Collaboration", "1"));
+            tags.add(new Tags("Blogging", "1"));
+        }
+        if (mDataFlag.equals(Constants.SKILLS))
+        {
+            tags.add(new Tags("Helping", "1"));
+            tags.add(new Tags("Marketing", "1"));
+            tags.add(new Tags("Life", "1"));
+            tags.add(new Tags("Finance", "1"));
+            tags.add(new Tags("Business", "1"));
+    }
         optionTagAdapter = new OptionTagAdapter(tags,getContext());
         //RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(GalleryActivity.this,2);
         mRecyclerOption.setLayoutManager(mLayoutManager);
@@ -143,7 +151,6 @@ public class SelectSkillsFragment extends Fragment {
         mRecyclerOption.setFocusable(false);
 
         optionTagAdapter.notifyDataSetChanged();
-
     }
 
     // TODO: Rename method, update argument and hook method into UI event
