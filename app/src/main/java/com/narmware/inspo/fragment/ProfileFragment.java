@@ -2,31 +2,35 @@ package com.narmware.inspo.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.narmware.inspo.R;
-import com.narmware.inspo.activity.ProfileActivity;
+import com.narmware.inspo.activity.PortfolioActivity;
+import com.narmware.inspo.activity.SearchActivity;
+import com.narmware.inspo.adapter.PortfolioAdapter;
+import com.narmware.inspo.adapter.SearchAdapter;
 import com.narmware.inspo.adapter.galleryAdapter.ProfileGalleryAdapter;
+import com.narmware.inspo.pojo.CardItem;
 import com.narmware.inspo.pojo.Image;
 import com.narmware.inspo.support.Constants;
 import com.narmware.inspo.support.DatabaseAccess;
-import com.narmware.inspo.support.SharedPreferencesHelper;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,14 +51,15 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    public static ArrayList<Image> images;
-    public static List<Image> temp;
-    GridView profileRecycler;
-    ProfileGalleryAdapter galleryAdapter;
-    TextView mTxtICanHelp,mTxtLookingFor,mTxtSkills;
+    TextView mTxtICanHelp,mTxtLookingFor,mTxtSkills,mTxtPortfolio;
     public static CircleImageView mImgProf;
     ImageButton mImgBtnEditProf;
     String userImage;
+    Button mBtnNext;
+    public static  RecyclerView mRecyclerPortfolio;
+   public static PortfolioAdapter portfolioAdpater;
+    public static ArrayList<Image> images;
+    public static DatabaseAccess databaseAccess;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -64,7 +69,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     public static TagContainerLayout helpGroup,lookingforGroup,skillsGroup;
-
+    public static Context context;
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -95,21 +100,28 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_profile, container, false);
         init(view);
-
+        context=getContext();
         return view;
 
     }
 
     private void init(View view) {
 
+        databaseAccess= DatabaseAccess.getInstance(getContext());
+        databaseAccess.open();
+
         mTxtICanHelp=view.findViewById(R.id.txt_iCanHelp);
         mTxtLookingFor=view.findViewById(R.id.txt_lookingFor);
         mTxtSkills=view.findViewById(R.id.txt_skills);
+        mTxtPortfolio=view.findViewById(R.id.txt_portfolio);
+
         mImgBtnEditProf=view.findViewById(R.id.img_edit_prof);
         helpGroup=view.findViewById(R.id.help_group);
         lookingforGroup=view.findViewById(R.id.looking_for_group);
         skillsGroup=view.findViewById(R.id.skills_group);
         mImgProf=view.findViewById(R.id.prof_img);
+        mRecyclerPortfolio=view.findViewById(R.id.portfolio_recycler);
+        mBtnNext=view.findViewById(R.id.btn_next);
 
         helpGroup.addTag("Sample tag");
         lookingforGroup.addTag("Sample tag");
@@ -118,7 +130,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         mTxtICanHelp.setOnClickListener(this);
         mTxtLookingFor.setOnClickListener(this);
         mTxtSkills.setOnClickListener(this);
+        mTxtPortfolio.setOnClickListener(this);
         mImgBtnEditProf.setOnClickListener(this);
+        mBtnNext.setOnClickListener(this);
+
+        setPortfolioAdapter(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
     }
 
     public void setFragment(Fragment fragment)
@@ -130,6 +146,28 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         fragmentTransaction.commit();
     }
 
+    public static void setPortfolioAdapter(RecyclerView.LayoutManager mLayoutManager){
+        images=new ArrayList<>();
+
+        List<Image> imageList=databaseAccess.getAllDetails();
+
+        for (int i=0;i<imageList.size();i++)
+        {
+            images.add(imageList.get(i));
+        }
+        SnapHelper snapHelper = new LinearSnapHelper();
+
+        portfolioAdpater = new PortfolioAdapter(images,context);
+        mRecyclerPortfolio.setLayoutManager(mLayoutManager);
+        mRecyclerPortfolio.setItemAnimator(new DefaultItemAnimator());
+       // snapHelper.attachToRecyclerView(mRecyclerPortfolio);
+        mRecyclerPortfolio.setAdapter(portfolioAdpater);
+        mRecyclerPortfolio.setNestedScrollingEnabled(false);
+        mRecyclerPortfolio.setFocusable(false);
+
+        portfolioAdpater.notifyDataSetChanged();
+
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -170,10 +208,19 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
                 setFragment(SelectSkillsFragment.newInstance(Constants.SKILLS));
                 break;
 
+            case R.id.txt_portfolio:
+                Intent intent=new Intent(getContext(), PortfolioActivity.class);
+                startActivity(intent);
+                break;
+
             case R.id.img_edit_prof:
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                 photoPickerIntent.setType("image/*");
                 startActivityForResult(photoPickerIntent, Constants.REQUEST_CODE);
+                break;
+
+            case R.id.btn_next:
+
                 break;
         }
     }

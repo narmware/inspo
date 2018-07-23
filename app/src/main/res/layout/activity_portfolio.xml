@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.ProfileActivity">
+    tools:context=".activity.PortfolioActivity">
 
     <android.support.v7.widget.CardView
         android:id="@+id/toolbar"
@@ -12,12 +12,21 @@
         android:layout_height="wrap_content">
         <include layout="@layout/custom_toolbar"></include>
     </android.support.v7.widget.CardView>
-
-    <FrameLayout
-        android:id="@+id/container"
-        android:layout_above="@+id/btn_next"
+    <GridView
         android:layout_below="@+id/toolbar"
+        android:id="@+id/grid_portfolio"
+        android:layout_above="@+id/btn_select"
+        android:numColumns="2"
+        android:stretchMode="columnWidth"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="match_parent"></GridView>
 
+    <Button
+        android:layout_alignParentBottom="true"
+        android:id="@+id/btn_select"
+        android:background="@color/colorPrimary"
+        android:textColor="@android:color/white"
+        android:text="Select your portfolio Images"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </RelativeLayout>

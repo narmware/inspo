@@ -146,9 +146,6 @@ public class DatabaseAccess {
         return quesAnsList;
     }
 
-
-
-
     public void deleteAll()
     {
         database.execSQL("delete from profilephotos");
