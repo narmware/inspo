@@ -2,6 +2,8 @@ package com.narmware.inspo.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -13,6 +15,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +33,7 @@ import com.narmware.inspo.pojo.CardItem;
 import com.narmware.inspo.pojo.Image;
 import com.narmware.inspo.support.Constants;
 import com.narmware.inspo.support.DatabaseAccess;
+import com.narmware.inspo.support.SharedPreferencesHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -123,9 +127,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         mRecyclerPortfolio=view.findViewById(R.id.portfolio_recycler);
         mBtnNext=view.findViewById(R.id.btn_next);
 
-        helpGroup.addTag("Sample tag");
-        lookingforGroup.addTag("Sample tag");
-        skillsGroup.addTag("Sample tag");
+       // helpGroup.addTag("Sample tag");
+        //lookingforGroup.addTag("Sample tag");
+        //skillsGroup.addTag("Sample tag");
 
         mTxtICanHelp.setOnClickListener(this);
         mTxtLookingFor.setOnClickListener(this);
@@ -134,27 +138,45 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         mImgBtnEditProf.setOnClickListener(this);
         mBtnNext.setOnClickListener(this);
 
-        setPortfolioAdapter(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+        if(SharedPreferencesHelper.getUserProfImg(getContext())!=null) {
+            Bitmap bitmap = StringToBitMap(SharedPreferencesHelper.getUserProfImg(getContext()));
+            mImgProf.setImageBitmap(bitmap);
+        }
+        images=new ArrayList<>();
+
+        List<Image> imageList=databaseAccess.getAllDetails();
+
+        if(imageList.size()!=0) {
+            for (int i = 0; i < imageList.size(); i++) {
+                images.add(imageList.get(i));
+            }
+
+            setPortfolioAdapter(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        }
+    }
+
+    public Bitmap StringToBitMap(String encodedString){
+        try {
+            byte [] encodeByte= Base64.decode(encodedString,Base64.DEFAULT);
+            Bitmap bitmap= BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch(Exception e) {
+            e.getMessage();
+            return null;
+        }
     }
 
     public void setFragment(Fragment fragment)
     {
         fragmentManager=getActivity().getSupportFragmentManager();
         fragmentTransaction=fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.container,fragment);
+        fragmentTransaction.add(R.id.container,fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 
     public static void setPortfolioAdapter(RecyclerView.LayoutManager mLayoutManager){
-        images=new ArrayList<>();
 
-        List<Image> imageList=databaseAccess.getAllDetails();
-
-        for (int i=0;i<imageList.size();i++)
-        {
-            images.add(imageList.get(i));
-        }
         SnapHelper snapHelper = new LinearSnapHelper();
 
         portfolioAdpater = new PortfolioAdapter(images,context);
@@ -197,15 +219,18 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         switch (view.getId())
         {
             case R.id.txt_iCanHelp:
-                setFragment(SelectSkillsFragment.newInstance(Constants.HELP_WITH));
+                SharedPreferencesHelper.setSelectionFlag(Constants.HELP_WITH,getContext());
+                setFragment(new SelectSkillsFragment());
                 break;
 
             case R.id.txt_lookingFor:
-                setFragment(SelectSkillsFragment.newInstance(Constants.LOOKING_FOR));
+                SharedPreferencesHelper.setSelectionFlag(Constants.LOOKING_FOR,getContext());
+                setFragment(new SelectSkillsFragment());
                 break;
 
             case R.id.txt_skills:
-                setFragment(SelectSkillsFragment.newInstance(Constants.SKILLS));
+                SharedPreferencesHelper.setSelectionFlag(Constants.SKILLS,getContext());
+                setFragment(new SelectSkillsFragment());
                 break;
 
             case R.id.txt_portfolio:

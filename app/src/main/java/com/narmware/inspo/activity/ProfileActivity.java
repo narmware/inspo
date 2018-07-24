@@ -1,12 +1,16 @@
 package com.narmware.inspo.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -18,6 +22,11 @@ import com.narmware.inspo.R;
 import com.narmware.inspo.fragment.ProfileFragment;
 import com.narmware.inspo.fragment.SelectSkillsFragment;
 import com.narmware.inspo.support.Constants;
+import com.narmware.inspo.support.SharedPreferencesHelper;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener,ProfileFragment.OnFragmentInteractionListener
 ,SelectSkillsFragment.OnFragmentInteractionListener
@@ -78,8 +87,16 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    public String BitMapToString(Bitmap bitmap){
+        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+        byte [] b=baos.toByteArray();
+        String temp= Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
+    }
 
-   /* @Override
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -87,9 +104,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         if (resultCode == RESULT_OK) {
             try {
                 final Uri imageUri = data.getData();
-                SharedPreferencesHelper.setUserProfImg(imageUri.toString(),ProfileActivity.this);
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                SharedPreferencesHelper.setUserProfImg(selectedImage,ProfileActivity.this);
+                //Bitmap bit=StringToBitMap(SharedPreferencesHelper.getUserProfImg(ProfileActivity.this));
                 Log.e("UserProfileImage",selectedImage+"");
 
                 ProfileFragment.mImgProf.setImageBitmap(selectedImage);
@@ -102,5 +120,5 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }else {
             Toast.makeText(ProfileActivity.this, "You haven't picked Image",Toast.LENGTH_LONG).show();
         }
-    }*/
+    }
 }

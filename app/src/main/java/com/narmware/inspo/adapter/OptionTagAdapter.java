@@ -17,6 +17,8 @@ import com.narmware.inspo.fragment.ProfileFragment;
 import com.narmware.inspo.fragment.SelectSkillsFragment;
 import com.narmware.inspo.pojo.CardItem;
 import com.narmware.inspo.pojo.Tags;
+import com.narmware.inspo.support.Constants;
+import com.narmware.inspo.support.SharedPreferencesHelper;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ public class OptionTagAdapter extends RecyclerView.Adapter<OptionTagAdapter.MyVi
 
 ArrayList<Tags> tags;
 Context mContext;
+String selection_flag;
 
     public OptionTagAdapter(ArrayList<Tags> tags, Context mContext) {
         this.tags = tags;
@@ -72,9 +75,22 @@ Context mContext;
                @Override
                public void onClick(View v) {
                    int position= (int) mTxtName.getTag();
+                    selection_flag= SharedPreferencesHelper.getSelectionFlag(mContext);
 
                    SelectSkillsFragment.selectedOptionGroup.addTag(mItem.getName());
-                   ProfileFragment.helpGroup.addTag(mItem.getName());
+                   if(selection_flag.equals(Constants.HELP_WITH)) {
+                       ProfileFragment.helpGroup.addTag(mItem.getName());
+                   }
+
+                   if(selection_flag.equals(Constants.LOOKING_FOR))
+                   {
+                       ProfileFragment.lookingforGroup.addTag(mItem.getName());
+                   }
+
+                   if(selection_flag.equals(Constants.SKILLS))
+                   {
+                       ProfileFragment.skillsGroup.addTag(mItem.getName());
+                   }
                    tags.remove(position);
                    notifyDataSetChanged();
                }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.narmware.inspo.pojo.Image;
 
@@ -17,6 +18,7 @@ public class DatabaseAccess {
     private static DatabaseAccess instance;
 
     List<Image> quesAnsList;
+    Image image;
 
     //QuizPojo quesDetails;
 
@@ -87,15 +89,42 @@ public class DatabaseAccess {
             String height=cursor.getString(5);
             String width=cursor.getString(6);
 
-            Image quesDetails = new Image(id,name,path,isSelected,album,height,width);
-                quesAnsList.add(quesDetails);
-
+            if(id!=-1)
+                {
+                    Image quesDetails = new Image(id,name,path,isSelected,album,height,width);
+                    quesAnsList.add(quesDetails);
+            }
             cursor.moveToNext();
         }
         cursor.close();
         //database.close();
         return quesAnsList;
     }
+
+    public boolean CheckSingleImage(String Imgname) {
+
+        Cursor cursor = database.rawQuery("SELECT * FROM profilephotos where name ='"+Imgname+"'", null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            long id= Long.parseLong(cursor.getString(0));
+            String name=cursor.getString(1);
+
+            if(id!=-1)
+            {
+
+                if(name!=null)
+                {
+                    return true;
+                }
+            }
+            cursor.moveToNext();
+        }
+        cursor.close();
+
+        //database.close();
+        return false;
+    }
+
 
     public List<Image> getSelectedImages(String albumName) {
         quesAnsList = new ArrayList<>();

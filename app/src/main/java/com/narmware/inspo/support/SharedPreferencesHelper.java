@@ -2,7 +2,11 @@ package com.narmware.inspo.support;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.preference.PreferenceManager;
+import android.util.Base64;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * Created by comp16 on 12/19/2017.
@@ -45,11 +49,17 @@ public class SharedPreferencesHelper {
         return user_id;
     }
 
-    public static void setUserProfImg(String user_img, Context context)
+    public static void setUserProfImg(Bitmap user_img, Context context)
     {
         SharedPreferences pref= PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor edit=pref.edit();
-        edit.putString(USER_PROF_IMG,user_img);
+
+        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+        user_img.compress(Bitmap.CompressFormat.PNG,100, baos);
+        byte [] b=baos.toByteArray();
+        String temp= Base64.encodeToString(b, Base64.DEFAULT);
+
+        edit.putString(USER_PROF_IMG,temp);
         edit.commit();
     }
 

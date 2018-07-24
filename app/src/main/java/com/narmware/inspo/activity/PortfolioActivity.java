@@ -87,7 +87,7 @@ public class PortfolioActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        Toast.makeText(this, requestCode+"   "+requestCode, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, requestCode+"   "+requestCode, Toast.LENGTH_SHORT).show();
 
         if (requestCode == Constants.REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             //The array list has the image paths of the selected images

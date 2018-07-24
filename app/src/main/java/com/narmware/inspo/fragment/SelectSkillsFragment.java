@@ -21,6 +21,7 @@ import com.narmware.inspo.adapter.SearchAdapter;
 import com.narmware.inspo.pojo.CardItem;
 import com.narmware.inspo.pojo.Tags;
 import com.narmware.inspo.support.Constants;
+import com.narmware.inspo.support.SharedPreferencesHelper;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class SelectSkillsFragment extends Fragment {
     public static TagContainerLayout selectedOptionGroup;
 
     // TODO: Rename and change types of parameters
-    private String mDataFlag;
+    private String mDataFlag,selection_flag;
 
     private OnFragmentInteractionListener mListener;
     ArrayList<Tags> tags;
@@ -81,7 +82,7 @@ public class SelectSkillsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_select_skills, container, false);
         tags=new ArrayList<>();
-
+        selection_flag= SharedPreferencesHelper.getSelectionFlag(getContext());
         init(view);
         return view;
 
@@ -122,18 +123,18 @@ public class SelectSkillsFragment extends Fragment {
     public void setTagAdapter(RecyclerView.LayoutManager mLayoutManager) {
         SnapHelper snapHelper = new LinearSnapHelper();
 
-        if (mDataFlag.equals(Constants.HELP_WITH)) {
+        if (selection_flag.equals(Constants.HELP_WITH)) {
             tags.add(new Tags("Leadership", "1"));
             tags.add(new Tags("Management", "1"));
             tags.add(new Tags("Collaboration", "1"));
             tags.add(new Tags("Finance", "1"));
         }
-        if (mDataFlag.equals(Constants.LOOKING_FOR)) {
+        if (selection_flag.equals(Constants.LOOKING_FOR)) {
             tags.add(new Tags("Management", "1"));
             tags.add(new Tags("Collaboration", "1"));
             tags.add(new Tags("Blogging", "1"));
         }
-        if (mDataFlag.equals(Constants.SKILLS))
+        if (selection_flag.equals(Constants.SKILLS))
         {
             tags.add(new Tags("Helping", "1"));
             tags.add(new Tags("Marketing", "1"));

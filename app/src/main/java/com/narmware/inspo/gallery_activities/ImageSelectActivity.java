@@ -408,6 +408,7 @@ public class ImageSelectActivity extends HelperActivity {
             return;
         }
 
+
         images.get(position).isSelected = !images.get(position).isSelected;
         if (images.get(position).isSelected) {
             countSelected++;
@@ -420,13 +421,16 @@ public class ImageSelectActivity extends HelperActivity {
             String height=images.get(position).height;
             String width=images.get(position).width;
 
-            Log.e("Image isSelected ",isSelected+"     "+images.get(position).isSelected+"    "+id);
-            databaseAccess.setImages(id,name,path,isSelected,album,height,width);
+          /* boolean check= databaseAccess.CheckSingleImage(name);
+            Toast.makeText(this, "checkImage"+check, Toast.LENGTH_SHORT).show();*/
+
+            Log.e("Image isSelected ",isSelected+"  "+images.get(position).isSelected+"    "+id);
+           databaseAccess.setImages(id,name,path,isSelected,album,height,width);
             //Toast.makeText(ImageSelectActivity.this,"Height: "+images.get(position).height+"width: "+images.get(position).width,Toast.LENGTH_LONG).show();
         } else {
             countSelected--;
 
-            databaseAccess.deleteSingle(images.get(position).id,images.get(position).album);
+           // databaseAccess.deleteSingle(images.get(position).id,images.get(position).album);
             mTxtCount.setText(countSelected+"");
         }
         adapter.notifyDataSetChanged();

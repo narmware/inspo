@@ -52,6 +52,7 @@
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/prof_img"
                         android:elevation="5dp"
+                        android:scaleType="centerCrop"
                         android:src="@mipmap/ic_launcher_round"
                         app:civ_border_color="@android:color/white"
                         app:civ_border_width="1dp"
